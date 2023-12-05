@@ -49,11 +49,19 @@ app.get('/', (req, res) => {
   res.render('landing.ejs');
 });
 
-app.get('/auth/login', (req, res) => {
+app.get('/logout', (req, res) => {
+  res.render('landing.ejs');
+});
+
+app.get('/login', (req, res) => {
   res.render('login.ejs'); 
 });
 
-app.post('/auth/login', async (req, res) => {
+app.get('/companyInfo', (req, res) => {
+  res.render('companyInfo.ejs'); 
+});
+
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await client
@@ -63,7 +71,7 @@ app.post('/auth/login', async (req, res) => {
    
     if (!user || password !== user.password) {
       req.flash('error', 'Invalid username or password');
-      return res.redirect('/auth/login');
+      return res.redirect('/login');
     }
     req.session.user = {
       _id: user._id,
@@ -72,7 +80,7 @@ app.post('/auth/login', async (req, res) => {
     res.redirect('/home');
   } catch (err) {
     console.error(err);
-    res.redirect('/auth/login');
+    res.redirect('/login');
   }
 });
 
@@ -84,11 +92,11 @@ app.get('/home',(req,res) =>{
 });
 
 // SIGN-UP ROUTE
-app.get('/auth/signup', (req, res) => {
+app.get('/signup', (req, res) => {
   res.render('signup.ejs');
 });
 
-app.post('/auth/signup', async (req, res) => {
+app.post('/signup', async (req, res) => {
   const { username, password } = req.body;
   my_stocks = "";
   const new_user = {
@@ -108,6 +116,7 @@ app.post('/auth/signup', async (req, res) => {
     res.redirect('/auth/signup');
   }
 });
+
 
 async function insertApplication(client, databaseAndCollection, newApplication) {
   const result = await client.db(databaseAndCollection.db)
