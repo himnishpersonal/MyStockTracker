@@ -29,6 +29,27 @@
           background-color: #ddd;
           color: black;
       }
+
+    main {
+        width: 80%; 
+        margin: auto; 
+    }
+    ul {
+        padding: 0;
+        list-style: none;
+    }
+    
+    li {
+        margin-bottom: 20px; 
+    }
+
+    a {
+        text-decoration: none; 
+        color: black; 
+    }
+    a:hover {
+        text-decoration: none; 
+    }
   </style>
 </head>
 <body>
@@ -44,13 +65,23 @@
     <main>
       <br>
       <br>
-      <form action="/companyInfo" method="POST" onsubmit="getStockData()">
-          <div>
-              <label for="search">Search a Company to get News and Analytics On!:</label>
-              <input type="text" id="search" name="search" placeholder="Enter tickername eg. tsla,aapl">
-              <button type="submit">Search</button>
-          </div>
-      </form>
+      <h2>Financial Analytics(Powered By Yahoo AI Recommended Analytics) for <%-tickername%></h2>
+      <ul>
+        <% keyStatistics.forEach(stat => { %>
+          <li><%= stat %></li>
+        <% }); %>
+      </ul>
+      <hr>
+      <h2>News for <%-tickername%> (Click the news title to see the article!)</h2>
+      <ul>
+        <% formattedNews.forEach(article => { %>
+          <li>
+            <a href="<%= article.link %>" target="_blank">
+              <strong><%= article.title %></strong> - <%= article.publisher %> (Published on <%= article.publishTime %>)
+            </a>
+          </li>
+        <% }); %>
+      </ul>
     </main>
 </body>
 
