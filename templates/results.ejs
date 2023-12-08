@@ -1,57 +1,99 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8" />
 	<title>MyStockTracker</title>
-    <script src="app.js"></script>
-    <style>
-      nav {
-          background-color: #333;
-          overflow: hidden;
-      }
-      nav ul {
-          padding: 0;
-          margin: 0;
-          list-style: none;
-          display: flex;
-      }
-      nav li {
-          float: left;
-      }
-
-      nav a {
-          display: block;
-          color: white;
-          text-align: center;
-          padding: 14px 16px;
-          text-decoration: none;
-      }
-      nav a:hover {
-          background-color: #ddd;
-          color: black;
-      }
-
-      .stock-tile {
-        border: 1px solid #ccc;
-        padding: 10px;
-        margin: 10px;
-        text-align: center;
-        width: 200px;
-        display: inline-block;
+  <script src="app.js"></script>
+  <style>
+    html {
+      background-color: #092635;
     }
+
+    header {
+      background-color: #9EC8B9;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      opacity: 50%;
+    }
+
+    body {
+      margin-top: 60px;
+      padding: 30px;
+    }
+
+    header * {
+      display: inline;
+    }
+
+    header li {
+      margin: 25px;
+    }
+
+    header li a {
+      color: #092635;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    nav a:hover {
+      box-shadow: 0 0 5px #9EC8B9,
+            0 0 25px #9EC8B9,
+            0 0 50px #9EC8B9,
+            0 0 100px #9EC8B9;
+      transition-delay: 0.1s;
+      color: white;
+      background-size: 4rem;
+      transition: all .4s ease;
+      -webkit-transition: all .4s ease;
+    }
+
+    .stock-tile {
+      border: 1px solid #ccc;
+      background-color: #d5eddc;
+      padding: 10px;
+      margin: 10px;
+      text-align: center;
+      width: 200px;
+      display: inline-block;
+      opacity: 90%;
+    }
+
+    .stock-tile:hover {
+      box-shadow: 0 0 5px #9EC8B9,
+            0 0 25px #9EC8B9,
+            0 0 50px #9EC8B9;
+      transition-delay: 0.1s;
+      background-size: 4rem;
+      transition: all .4s ease;
+      -webkit-transition: all .4s ease;
+      color: #092635;
+    }
+
     .positive-change {
-        color: green;
+      background-color: #d4edda;
+      color: #155724;
     }
+
     .negative-change {
-        color: red;
+      background-color: #f8d7da;
+      color: #721c24;
     }
   </style>
 </head>
+
 <body>
     <header>
         <nav>
           <ul>
             <li><a href="/home">Home</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
             <li><a href="/companyInfo">Get Stock Info</a></li>
             <li><a href="/">Logout</a></li>
           </ul>
