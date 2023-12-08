@@ -1,9 +1,11 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-	<meta charset="utf-8" />
+    <meta charset="utf-8" />
 	<title>MyStockTracker</title>
-  <style>
+
+    <style>
     html {
       background-color: #092635;
     }
@@ -60,35 +62,43 @@
 		color: #5C8374;
 	}
 
-  p {
+    p {
 		position: fixed;
 		bottom: 0;
 		right: 0;
 		color: #9EC8B9;
 	} 
-  
-  main {
-    color: white;
-  }
 
-    ul {
-        padding: 0;
-        list-style: none;
-    }
-    
-    li {
-        margin-bottom: 20px; 
-    }
+    h1 {
+		overflow: hidden;
+		border-right: .15em solid #9EC8B9;
+		white-space: nowrap;
+		letter-spacing: .05em;
+		animation:
+			typing 1.2s steps(40) forwards,
+			blink-caret .75s infinite
+		;
+		color: #9EC8B9;
+		font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+		font-size: 4rem;
+		margin-top: 2rem;
+        padding-left: 2.5rem;
+	}
 
-    a {
-        text-decoration: none; 
-        color: black; 
-    }
-    a:hover {
-        text-decoration: none; 
-    }
-  </style>
+		/* typing effect */
+		@keyframes typing {
+			from {width: 0%}
+			to {width: 23.5%}
+		}
+
+		/* typewriter cursor effect */
+		@keyframes blink-caret {
+			from, to {border-color: transparent}
+			50% {border-color: #9EC8B9}
+		}
+    </style>
 </head>
+
 <body>
     <header>
         <nav>
@@ -101,30 +111,12 @@
         </nav>
     </header>
     <main>
-      <br>
-      <br>
-      <h2>Financial Analytics(Powered By Yahoo AI Recommended Analytics) for <%-tickername%></h2>
-      <ul>
-        <% keyStatistics.forEach(stat => { %>
-          <li><%= stat %></li>
-        <% }); %>
-      </ul>
-      <hr>
-      <h2>News for <%-tickername%> (Click the news title to see the article!)</h2>
-      <ul>
-        <% formattedNews.forEach(article => { %>
-          <li>
-            <a href="<%= article.link %>" target="_blank">
-              <strong><%= article.title %></strong> - <%= article.publisher %> (Published on <%= article.publishTime %>)
-            </a>
-          </li>
-        <% }); %>
-      </ul>
+        <h1>My Stocks</h1><br>
+        <div>
+            <!-- IMPLEMENT HERE -->>
+        </div>
     </main>
-
     <p>&copy; 2023 MyStockTracker&nbsp;&nbsp;•&nbsp;&nbsp;Powered by <a id="yahoo" href="https://finance.yahoo.com/">Yahoo</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 </body>
-
-
 
 </html>

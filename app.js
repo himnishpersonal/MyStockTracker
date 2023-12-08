@@ -1,3 +1,4 @@
+// CONSTANTS
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
@@ -38,10 +39,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-
-
-
+app.use(express.static('public'));
 
 
 //ROUTES
@@ -61,7 +59,7 @@ app.get('/login', (req, res) => {
 });
 
 
-//LOGIN ROUTES
+//LOGIN ROUTES ** NEED POP-UP WARNING**
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
@@ -158,6 +156,7 @@ async function getNews(tickername){
     return response
   } catch (error) {
     console.error(error);
+    // invalid tickername
   }
 }
 
@@ -175,6 +174,7 @@ async function getAnalytics(tickername){
     return response;
   } catch (error) {
     console.error(error);
+    // invalid tickername
   }
 }
 
@@ -184,6 +184,7 @@ app.get('/home',(req,res) =>{
   res.render('home.ejs');
 });
 
+// ** NEED POP-UP WARNING**
 app.post('/home', async (req,res) =>{
     try {
         const searchInput = req.body.search;
@@ -197,6 +198,7 @@ app.post('/home', async (req,res) =>{
     }
 });
 
+// ** NEED POP-UP WARNING**
 async function fetchDataFromAPI(tickerNames) {
   const options = {
       method: 'GET',
@@ -212,6 +214,7 @@ async function fetchDataFromAPI(tickerNames) {
   } catch (error) {
       console.error(error);
       throw error;
+      // pop-up: wrong name or company not public
   }
 }
 
@@ -238,6 +241,7 @@ app.get('/signup', (req, res) => {
   res.render('signup.ejs');
 });
 
+// ** NEED POP-UP WARNING**
 app.post('/signup', async (req, res) => {
   const { username, password } = req.body;
   my_stocks = "";
@@ -256,6 +260,9 @@ app.post('/signup', async (req, res) => {
   } catch (err) {
     console.error(err);
     res.redirect('/signup');
+    popup.alert({
+      content: 'Hello!'
+    });
   }
 });
 
@@ -277,7 +284,9 @@ app.post('/addToDashboard', async (req, res) => {
   res.send("Updated your stocks!");
 });
 
-
+app.get('/dashboard', async (req, res) => {
+  res.render('dashboard.ejs');
+});
 
 app.listen(portNum, () => {
   console.log(`Server is running on port ${portNum}`);
