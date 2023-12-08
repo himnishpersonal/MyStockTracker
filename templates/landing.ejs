@@ -1,12 +1,112 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 	<meta charset="utf-8" />
+	<link rel="icon" href="./favicon.ico" type="image/x-icon">
 	<title>MyStockTracker</title>
+
+	<style>
+		html {
+			background-color: #092635;
+		}
+
+		h1 {
+			overflow: hidden;
+			border-right: .15em solid #9EC8B9;
+			white-space: nowrap;
+			margin: 0 auto;
+			letter-spacing: .05em;
+			animation:
+				typing 1.5s steps(40) forwards,
+				blink-caret .75s infinite
+			;
+			color: #9EC8B9;
+			font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+			font-size: 4rem;
+			text-align: center;
+			margin-top: 12rem;
+		}
+
+		/* typing effect */
+		@keyframes typing {
+			from {width: 0%}
+			to {width: 36%}
+		}
+
+		/* typewriter cursor effect */
+		@keyframes blink-caret {
+			from, to {border-color: transparent}
+			50% {border-color: #9EC8B9}
+		}
+
+		.button {
+  			align-items: center;
+  			background-image: radial-gradient(100% 100% at 100% 0, #5C8374 0, #9EC8B9 100%);
+  			border: 0;
+  			border-radius: 6px;
+  			box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  			box-sizing: border-box;
+  			color: #092635;
+  			cursor: pointer;
+  			display: inline-flex;
+  			font-family: "JetBrains Mono",monospace;
+  			height: 48px;
+  			justify-content: center;
+  			line-height: 1;
+			margin: 9 auto;
+  			overflow: hidden;
+  			padding-left: 16px;
+  			padding-right: 16px;
+  			position: relative;
+  			text-align: center;
+  			transition: box-shadow .15s,transform .15s;
+  			white-space: nowrap;
+  			will-change: box-shadow,transform;
+  			font-size: 18px;
+		}
+
+		.button:focus {
+  			box-shadow: #1B4242 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #1B4242 0 -3px 0 inset;
+		}
+
+		.button:hover {
+  			box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #1B4242 0 -3px 0 inset;
+  			transform: translateY(-2px);
+		}
+
+		.button:active {
+  			box-shadow: #1B4242 0 3px 7px inset;
+  			transform: translateY(2px);
+		}
+
+		#buttons {
+			text-align: center;
+		}
+
+		p {
+			position: fixed;
+			bottom: 0;
+			right: 0;
+			color: #9EC8B9;
+		}
+
+		#yahoo:visited {
+			color: #9EC8B9;
+		}
+
+		#yahoo:hover {
+			color: #5C8374;
+		}
+	</style>
 </head>
 
-<h1>Welcome to the Stock Tracker App</h1>
-<a href="/login"><button>Login</button></a>
-<a href="/signup"><button>Sign Up</button></a>
+<h1>MyStockTracker</h1><br><br>
+<div id="buttons">
+	<a href="/login"><button class="button">Login</button></a>
+	&nbsp;&nbsp;&nbsp;
+	<a href="/signup"><button class="button">Sign Up</button></a>
+</div>
+<p>&copy; 2023 MyStockTracker&nbsp;&nbsp;•&nbsp;&nbsp;Powered by <a id="yahoo" href="https://finance.yahoo.com/">Yahoo</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 
 </html>
