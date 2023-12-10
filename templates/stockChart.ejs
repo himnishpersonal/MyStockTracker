@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+	<title>MyStockTracker</title>
+
+    <style>
+    html {
+      background-color: #092635;
+    }
+
+    header {
+      background-color: #9EC8B9;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      opacity: 50%;
+    }
+
+    body {
+      margin-top: 60px;
+      padding: 15px;
+    }
+
+    header * {
+      display: inline;
+    }
+
+    header li {
+      margin: 25px;
+    }
+
+    header li a {
+      color: #092635;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    nav a:hover {
+      color: white;
+      box-shadow: 0 0 5px #9EC8B9,
+            0 0 25px #9EC8B9,
+            0 0 50px #9EC8B9,
+            0 0 100px #9EC8B9;
+      transition-delay: 0.1s;
+      background-size: 4rem;
+      transition: all .4s ease;
+      -webkit-transition: all .4s ease;
+    }
+
+    #yahoo:visited {
+			color: #9EC8B9;
+		}
+
+	#yahoo:hover {
+		color: #5C8374;
+	}
+
+    p {
+		position: fixed;
+		bottom: 0;
+		right: 0;
+		color: #9EC8B9;
+	} 
+
+    h1 {
+		overflow: hidden;
+		border-right: .15em solid #9EC8B9;
+		white-space: nowrap;
+		letter-spacing: .05em;
+		animation:
+			typing 1.2s steps(40) forwards,
+			blink-caret .75s infinite
+		;
+		color: #9EC8B9;
+		font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+		font-size: 4rem;
+		margin-top: 2rem;
+        padding-left: 2.5rem;
+	}
+
+		/* typing effect */
+		@keyframes typing {
+			from {width: 0%}
+			to {width: 23.5%}
+		}
+
+		/* typewriter cursor effect */
+		@keyframes blink-caret {
+			from, to {border-color: transparent}
+			50% {border-color: #9EC8B9}
+		}
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+          <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/companyInfo">Get Stock Info</a></li>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>My Stocks</h1><br>
+        <div>
+          <canvas id="chart" width="100" height="100"></canvas>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="app.js"></script>
+
+<script>
+  const dates = [];
+  const prices = [];
+  const ctx = document.getElementById('chart');
+  async function makeChart() {
+    await getData();
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: dates,
+        datasets: [{
+          label: 'Current Price',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+         }
+        }
+      }
+    });
+  }
+
+</script>
+ 
+    </main>
+    <p>&copy; 2023 MyStockTracker&nbsp;&nbsp;•&nbsp;&nbsp;Powered by <a id="yahoo" href="https://finance.yahoo.com/">Yahoo</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+</body>
+
+</html>

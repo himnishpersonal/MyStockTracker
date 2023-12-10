@@ -104,6 +104,7 @@
         <% stockChanges.forEach(stock => { %>
             <div class="stock-tile <%= stock.changePercent.includes('-') ? 'negative-change' : 'positive-change' %>">
                 <input type="checkbox" name="selectedStocks" value="<%= stock.company %>">
+                <input type ="text" name="sharesOwned">
                 <h3><%= stock.company %></h3>
                 <p><%= stock.changePercent %></p>
             </div>
@@ -118,6 +119,4 @@
     }
   </script>
 </body>
-
-
 </html>

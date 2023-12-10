@@ -138,16 +138,12 @@ function formatNewsData(newsData) {
   return formattedNews;
 }
 
-
-
-
-
 async function getNews(tickername){
   const options = {
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/news/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
+      'X-RapidAPI-Key': 'b4992e8c6fmshd1ee326049bd54cp138039jsn9dca24ad9402',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -165,7 +161,7 @@ async function getAnalytics(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/finance-analytics/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
+      'X-RapidAPI-Key': 'b4992e8c6fmshd1ee326049bd54cp138039jsn9dca24ad9402',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -204,8 +200,8 @@ async function fetchDataFromAPI(tickerNames) {
       method: 'GET',
       url: `https://yahoo-finance127.p.rapidapi.com/multi-quote/${tickerNames}`,
       headers: {
-          'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
-          'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
+        'X-RapidAPI-Key': 'b4992e8c6fmshd1ee326049bd54cp138039jsn9dca24ad9402',
+        'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
       }
   };
   try {
@@ -233,9 +229,6 @@ function calculateStockChange(stockData) {
   return stockChanges;
 }
 
-
-
-
 // SIGN-UP ROUTES AND FUNCTIONS
 app.get('/signup', (req, res) => {
   res.render('signup.ejs');
@@ -253,7 +246,7 @@ app.post('/signup', async (req, res) => {
   try {
     const existingUser = await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).findOne({username})
     if (existingUser) {
-      return res.redirect('/signup');
+      return res.render('/signup.ejs');
     }
     await insertApplication(client,databaseAndCollection,new_user)
     res.redirect('/login');
@@ -272,9 +265,61 @@ async function insertApplication(client, databaseAndCollection, newApplication) 
     .insertOne(newApplication);
 }
 
+// app.post('/addToDashboard', async (req, res) => {
+//   const selectedStocks = req.body.selectedStocks;
+//   const username = req.session.user.username;
+//   let stocksToUpdate = [];
+
+//   if (typeof selectedStocks === 'string') {
+//     // Only one stock selected, make it an array for consistency
+//     selectedStocks = [selectedStocks];
+//   }
+
+//   console.log(selectedStocks);
+//   selectedStocks.forEach(stock => {
+//     const sharesOwned = req.body['sharesOwned-' + stock];
+//     if (sharesOwned) {
+//       stocksToUpdate.push(stock + ':' + sharesOwned);
+      
+//       console.log(stocksToUpdate);
+//     }
+//   });
+//   try {
+//     await client.db(databaseAndCollection.db)
+//       .collection(databaseAndCollection.collection)
+//       .updateOne(
+//         { username: username },
+//         { $set: { my_stocks: stocksToUpdate.join(',') } }
+//       );
+//     res.redirect("/dashboard");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send("Error updating stocks");
+//   }
+// });
+
+app.post('/moreInfo', async (req, res) => {
+  try {
+    const tickername = req.body.tickerName;
+    const tickerString = JSON.stringify(tickername);
+    const arr = JSON.parse(tickerString);
+    const finalname = arr[0];
+    const tickerNews = await getNews(finalname);
+    const news_data = tickerNews.data;
+    const formatted_news = formatNewsData(news_data);
+    const tickerAnalytics = await getAnalytics(finalname);
+    const analytics_data = tickerAnalytics.data;
+    const formatted_analytics = formatAnalyticsData(analytics_data);
+    res.render('compInfoRes.ejs', { keyStatistics: formatted_analytics, tickername: tickername, formattedNews: formatted_news });
+  } catch (error) {
+      console.error(error);
+  }
+});
+
 app.post('/addToDashboard', async (req, res) => {
   const selectedStocks = req.body.selectedStocks;
   const username= req.session.user.username;
+
   result = await client.db(databaseAndCollection.db)
   .collection(databaseAndCollection.collection)
   .updateOne(
@@ -285,8 +330,76 @@ app.post('/addToDashboard', async (req, res) => {
 });
 
 app.get('/dashboard', async (req, res) => {
-  res.render('dashboard.ejs');
+  if (!req.session.user || !req.session.user.username) {
+      res.redirect('/login');
+      return;
+  }
+
+  try {
+      const username = req.session.user.username;
+      const user = await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).findOne({ username });
+
+      if (!user || !user.my_stocks) {
+          res.render('dashboard.ejs', { ownedStocks: [] });
+          return;
+      }
+
+      const stockTickers = user.my_stocks.split(',');
+      let ownedStocks = [];
+
+          const stockInfo = await fetchDataFromAPI(stockTickers);
+          const stockData = stockInfo.data;
+
+          Object.values(stockData).forEach(stock => {
+            const symbol = stock.symbol;
+            const regPrice = stock.regularMarketPrice.fmt;
+            console.log(regPrice);
+            const entry = {
+              company: symbol,
+              currentPrice: regPrice
+            };
+            ownedStocks.push(entry)
+          });
+          
+      res.render('dashboard.ejs', { ownedStocks });
+  } catch (error) {
+      console.error('Error on dashboard route:', error);
+      // res.redirect('/');
+  }
 });
+
+function calculateStockChange(stockData) {
+  const stockChanges = [];
+  Object.values(stockData).forEach(stock => {
+    const symbol = stock.symbol;
+    console.log(symbol)
+    const stockChange = stock.regularMarketChangePercent.fmt;
+    const entry = {
+      company : symbol,
+      changePercent: stockChange
+    };
+    stockChanges.push(entry)
+  });
+  return stockChanges;
+}
+
+// async function getHistoricalData(tickerName, startDate, endDate) {
+//   const options = {
+//     method: 'GET',
+//     url: `https://yahoo-finance127.p.rapidapi.com/historic/${tickerName}/${startDate}/${endDate}`,
+//     headers: {
+//       'X-RapidAPI-Key': 'bc8443fc6amsh71be24b1063870fp1556bejsnc8cc1dee05d8',
+//       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
+//     }
+//   };
+//   try {
+//     const response = await axios(options);
+//     return response;
+//   } catch (error) {
+//     console.error(`Error trying to fetch historical data ${error}`);
+//     return null;
+//   }
+// }
 
 app.listen(portNum, () => {
   console.log(`Server is running on port ${portNum}`);
