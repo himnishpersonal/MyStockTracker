@@ -19,7 +19,7 @@
       height: 60px;
       display: flex;
       align-items: center;
-      opacity: 50%;
+      opacity: 90%;
     }
 
     body {
@@ -87,6 +87,8 @@
   .myStocks {
       border: 1px solid #ccc;
       background-color: #d5eddc;
+      border-radius: 10px;
+      font-family: "JetBrains Mono",monospace;
       padding: 10px;
       margin: 10px;
       text-align: center;
@@ -96,8 +98,10 @@
       opacity: 90%;
     }
 
-  
-
+  .myStocks:hover {
+    box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, #1B4242 0 -3px 0 inset;
+  	transform: translateY(-2px);
+  }
 
 		/* typing effect */
 		@keyframes typing {
@@ -125,8 +129,7 @@
         </nav>
     </header>
     <main>
-        <h1>My Stocks</h1><br>
-        <h2>My Portfolio</h2>
+        <h1>My Stocks</h1>
         <form id="dashStocks" action="/moreInfo" method="post">
           <% ownedStocks.forEach(stock => { %>
             <input type="hidden" id="tickerInput" name="tickerName">
@@ -148,8 +151,8 @@
         console.log(tickerName);
         document.getElementById('dashStocks').submit();
       }
-  </script> -->
-    </script>
+  </script> 
+
     <p>&copy; 2023 MyStockTracker&nbsp;&nbsp;•&nbsp;&nbsp;Powered by <a id="yahoo" href="https://finance.yahoo.com/">Yahoo</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 </body>
 
