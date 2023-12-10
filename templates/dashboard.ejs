@@ -84,6 +84,20 @@
 		margin-top: 2rem;
         padding-left: 2.5rem;
 	}
+  .myStocks {
+      border: 1px solid #ccc;
+      background-color: #d5eddc;
+      padding: 10px;
+      margin: 10px;
+      text-align: center;
+      height: 100px;
+      width: 300px;
+      display: inline-block;
+      opacity: 90%;
+    }
+
+  
+
 
 		/* typing effect */
 		@keyframes typing {
@@ -112,10 +126,30 @@
     </header>
     <main>
         <h1>My Stocks</h1><br>
-        <div>
-            <!-- IMPLEMENT HERE -->>
-        </div>
+        <h2>My Portfolio</h2>
+        <form id="dashStocks" action="/moreInfo" method="post">
+          <% ownedStocks.forEach(stock => { %>
+            <input type="hidden" id="tickerInput" name="tickerName">
+            <div class="myStocks" data-ticker="<%= stock.company %>" onclick="moreInfo(this)">
+              <h3><%= stock.company %></h3>
+              <h3>Current Price: <%= stock.currentPrice %></h3>
+
+              <!-- Month<input type="number" name="startMonth"> Day<input type ="number" name="startDay"> Year<input type="number" name="startYear">
+              endMonth<input type="number" name="endMonth"> endDay<input type ="number" name="endDay"> endYear<input type="number" name="endYear"> -->
+              <!-- <input type="button" value="See chart" onclick="seeChart()"> -->
+            </div>
+        <% }); %>
+      </form>
     </main>
+    <script>
+      function moreInfo(element) {
+        var tickerName = element.getAttribute('data-ticker');
+        document.getElementById('tickerInput').value = tickerName;
+        console.log(tickerName);
+        document.getElementById('dashStocks').submit();
+      }
+  </script> -->
+    </script>
     <p>&copy; 2023 MyStockTracker&nbsp;&nbsp;•&nbsp;&nbsp;Powered by <a id="yahoo" href="https://finance.yahoo.com/">Yahoo</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 </body>
 
