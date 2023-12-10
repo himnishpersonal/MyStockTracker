@@ -17,6 +17,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('connect-flash');
+const e = require('connect-flash');
 
 //MONGO DB SETUP
 const uri = process.env.MONGO_CONNECTION_STRING;
@@ -143,7 +144,7 @@ async function getNews(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/news/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
+      'X-RapidAPI-Key': '00810461camsh1c16b5dbf7e0991p1dcef8jsnef8cfb27bc19',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -161,7 +162,7 @@ async function getAnalytics(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/finance-analytics/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
+      'X-RapidAPI-Key': '00810461camsh1c16b5dbf7e0991p1dcef8jsnef8cfb27bc19',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -200,7 +201,7 @@ async function fetchDataFromAPI(tickerNames) {
       method: 'GET',
       url: `https://yahoo-finance127.p.rapidapi.com/multi-quote/${tickerNames}`,
       headers: {
-        'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
+        'X-RapidAPI-Key': '00810461camsh1c16b5dbf7e0991p1dcef8jsnef8cfb27bc19',
         'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
       }
   };
@@ -237,11 +238,10 @@ app.get('/signup', (req, res) => {
 // ** NEED POP-UP WARNING**
 app.post('/signup', async (req, res) => {
   const { username, password } = req.body;
-  my_stocks = "";
   const new_user = {
     username: username,
     password: password,
-    my_stocks: ""
+    my_stocks: []
   }
   try {
     const existingUser = await client.db(databaseAndCollection.db).collection(databaseAndCollection.collection).findOne({username})
@@ -317,24 +317,22 @@ app.post('/moreInfo', async (req, res) => {
 });
 
 app.post('/addToDashboard', async (req, res) => {
-  const selectedStocks = req.body.selectedStocks;
+  let selectedStocks = req.body.selectedStocks;
   const username = req.session.user.username;
 
-  // if (typeof selectedStocks === Array) {
+  if (typeof selectedStocks === "string") {
+    console.log("hi");
+    arr = [];
+    arr.push(selectedStocks);
+  } else {
+    arr = selectedStocks;
+  }
     result = await client.db(databaseAndCollection.db)
     .collection(databaseAndCollection.collection)
     .updateOne(
       { username: username },
-      { $set: { my_stocks: selectedStocks.join(',') } }
+      { $push: { my_stocks: { $each: arr } } }
     );
-  // } else {
-  //   result = await client.db(databaseAndCollection.db)
-  //   .collection(databaseAndCollection.collection)
-  //   .updateOne(
-  //     { username: username },
-  //     { $set: { my_stocks: selectedStocks } }
-  // );
-  // }
 
   res.render('confirmation.ejs');
 });
@@ -354,7 +352,7 @@ app.get('/dashboard', async (req, res) => {
           return;
       }
 
-      const stockTickers = user.my_stocks.split(',');
+      const stockTickers = user.my_stocks;
       let ownedStocks = [];
 
           const stockInfo = await fetchDataFromAPI(stockTickers);
