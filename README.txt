@@ -4,4 +4,4 @@ App Description: MyStockTracker is an application designed to help users monitor
                  activities.
 API Link: https://rapidapi.com/manwilbahaa/api/yahoo-finance127/
           ** RESTRICTED TO 35 API CALLS DAILY **
-YouTube Demo Video: 
+YouTube Demo Video: https://youtu.be/HYRBLyM68sE

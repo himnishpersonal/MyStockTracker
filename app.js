@@ -144,7 +144,7 @@ async function getNews(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/news/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': '00810461camsh1c16b5dbf7e0991p1dcef8jsnef8cfb27bc19',
+      'X-RapidAPI-Key': '32aa03ca93msh3d56e1ac4be22dep1ef5a4jsn7e2cc609babc',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -162,7 +162,7 @@ async function getAnalytics(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/finance-analytics/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': '00810461camsh1c16b5dbf7e0991p1dcef8jsnef8cfb27bc19',
+      'X-RapidAPI-Key': '32aa03ca93msh3d56e1ac4be22dep1ef5a4jsn7e2cc609babc',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -201,7 +201,7 @@ async function fetchDataFromAPI(tickerNames) {
       method: 'GET',
       url: `https://yahoo-finance127.p.rapidapi.com/multi-quote/${tickerNames}`,
       headers: {
-        'X-RapidAPI-Key': '00810461camsh1c16b5dbf7e0991p1dcef8jsnef8cfb27bc19',
+        'X-RapidAPI-Key': '32aa03ca93msh3d56e1ac4be22dep1ef5a4jsn7e2cc609babc',
         'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
       }
   };
