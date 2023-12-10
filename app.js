@@ -143,7 +143,7 @@ async function getNews(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/news/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': 'b4992e8c6fmshd1ee326049bd54cp138039jsn9dca24ad9402',
+      'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -161,7 +161,7 @@ async function getAnalytics(tickername){
     method: 'GET',
     url: `https://yahoo-finance127.p.rapidapi.com/finance-analytics/${tickername}`,
     headers: {
-      'X-RapidAPI-Key': 'b4992e8c6fmshd1ee326049bd54cp138039jsn9dca24ad9402',
+      'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
       'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
     }
   };
@@ -200,7 +200,7 @@ async function fetchDataFromAPI(tickerNames) {
       method: 'GET',
       url: `https://yahoo-finance127.p.rapidapi.com/multi-quote/${tickerNames}`,
       headers: {
-        'X-RapidAPI-Key': 'b4992e8c6fmshd1ee326049bd54cp138039jsn9dca24ad9402',
+        'X-RapidAPI-Key': 'e19828b0f0msha4b5fd0247fa8efp1241e9jsn21d78152afb8',
         'X-RapidAPI-Host': 'yahoo-finance127.p.rapidapi.com'
       }
   };
@@ -318,15 +318,25 @@ app.post('/moreInfo', async (req, res) => {
 
 app.post('/addToDashboard', async (req, res) => {
   const selectedStocks = req.body.selectedStocks;
-  const username= req.session.user.username;
+  const username = req.session.user.username;
 
-  result = await client.db(databaseAndCollection.db)
-  .collection(databaseAndCollection.collection)
-  .updateOne(
-    { username: username },
-    { $set: { my_stocks: selectedStocks.join(',') } }
-  );
-  res.send("Updated your stocks!");
+  // if (typeof selectedStocks === Array) {
+    result = await client.db(databaseAndCollection.db)
+    .collection(databaseAndCollection.collection)
+    .updateOne(
+      { username: username },
+      { $set: { my_stocks: selectedStocks.join(',') } }
+    );
+  // } else {
+  //   result = await client.db(databaseAndCollection.db)
+  //   .collection(databaseAndCollection.collection)
+  //   .updateOne(
+  //     { username: username },
+  //     { $set: { my_stocks: selectedStocks } }
+  // );
+  // }
+
+  res.render('confirmation.ejs');
 });
 
 app.get('/dashboard', async (req, res) => {

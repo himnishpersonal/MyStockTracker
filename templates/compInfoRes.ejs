@@ -17,7 +17,7 @@
       height: 60px;
       display: flex;
       align-items: center;
-      opacity: 50%;
+      opacity: 90%;
     }
 
     body {
@@ -56,6 +56,10 @@
 			color: #9EC8B9;
 		}
 
+    #yahoo {
+      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
 	#yahoo:hover {
 		color: #5C8374;
 	}
@@ -68,7 +72,23 @@
 	} 
   
   main {
-    color: white;
+    color: #092635;
+    font-family: "JetBrains Mono",monospace;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .box {
+    border: 2px double ;
+    border-color: black;
+    background-color: #ccc;
+    padding: 2rem;
+    animation: fadeIn 5s;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
   }
 
     ul {
@@ -83,10 +103,39 @@
     a {
         text-decoration: none; 
         color: black; 
+        font-family: "JetBrains Mono",monospace;
     }
+
     a:hover {
         text-decoration: none; 
     }
+
+    h2 {
+			overflow: hidden;
+			border-right: .15em solid #9EC8B9;
+			white-space: nowrap;
+			letter-spacing: .05em;
+			animation:
+				typing 1.5s steps(40) forwards,
+				blink-caret .75s infinite
+			;
+			color: #9EC8B9;
+			font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+			font-size: 2rem;
+			margin-top: 3rem;
+		}
+
+		/* typing effect */
+		@keyframes typing {
+			from {width: 0%}
+			to {width: 37%}
+		}
+
+		/* typewriter cursor effect */
+		@keyframes blink-caret {
+			from, to {border-color: transparent}
+			50% {border-color: #9EC8B9}
+		}
   </style>
 </head>
 <body>
@@ -100,27 +149,32 @@
           </ul>
         </nav>
     </header>
+
     <main>
+      <h2>AI Financial Analytics for <%-tickername%></h2><br>
+      <div class="box">
+        <ul>
+          <% keyStatistics.forEach(stat => { %>
+            <li><%= stat %></li>
+          <% }); %>
+        </ul>
+      </div>
+      
       <br>
-      <br>
-      <h2>Financial Analytics(Powered By Yahoo AI Recommended Analytics) for <%-tickername%></h2>
-      <ul>
-        <% keyStatistics.forEach(stat => { %>
-          <li><%= stat %></li>
-        <% }); %>
-      </ul>
-      <hr>
-      <h2>News for <%-tickername%> (Click the news title to see the article!)</h2>
-      <ul>
-        <% formattedNews.forEach(article => { %>
-          <li>
-            <a href="<%= article.link %>" target="_blank">
-              <strong><%= article.title %></strong> - <%= article.publisher %> (Published on <%= article.publishTime %>)
-            </a>
-          </li>
-        <% }); %>
-      </ul>
-    </main>
+
+      <h2>Recent News Articles for <%-tickername%></h2><br>
+      <div class="box">
+        <ul>
+          <% formattedNews.forEach(article => { %>
+            <li>
+              <a href="<%= article.link %>" target="_blank">
+                <strong><%= article.title %></strong> - <%= article.publisher %> (Published on <%= article.publishTime %>)
+              </a>
+            </li>
+          <% }); %>
+        </ul>
+      </div>
+    </main><br><br><br>
 
     <p>&copy; 2023 MyStockTracker&nbsp;&nbsp;•&nbsp;&nbsp;Powered by <a id="yahoo" href="https://finance.yahoo.com/">Yahoo</a>&nbsp;&nbsp;&nbsp;&nbsp;</p>
 </body>
