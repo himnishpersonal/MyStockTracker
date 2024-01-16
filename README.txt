@@ -24,8 +24,6 @@ Visualize key statistics and news data for better insights.
 API Link
 Yahoo Finance API on RapidAPI
 RESTRICTED TO 35 API CALLS DAILY
-YouTube Demo Video
-Watch MyStockTracker Demo
-Access MyStockTracker
-Visit MyStockTracker Website
+YouTube Demo Video: https://youtu.be/HYRBLyM68sE
+Link to Website: https://mystocktracker.onrender.com/
 Stay informed, make informed decisions, and elevate your investment game with My Stock Tracker App!
